@@ -1,21 +1,23 @@
-//
-//  ContentView.swift
-//  ponderada2
-//
-//  Created by Davi Abreu da Silveira on 25/05/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    let programas = [naruto, avatar, strangerThings]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    ForEach(programas, id: \.nome) { programa in
+                        NavigationLink(destination: ProgramaDetailView(programa: programa)) {
+                            ShowCard(programa: programa)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Meus Programas")
         }
-        .padding()
     }
 }
 
