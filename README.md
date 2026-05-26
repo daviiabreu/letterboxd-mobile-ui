@@ -6,11 +6,11 @@
 
 ## Relatório Ponderada
 
-Analisando o enunciado da atividade ponderada, obtivemos entendimento do que era para ser entregue: um app estilo Letterboxd, utilizando SwiftUI, listando alguns programas e sendo possível abrir telas de detalhamento para cada um dos programas.
+Ao ler o enunciado da atividade ponderada, entendemos que era necessário desenvolver algo como um app estilo Letterboxd, utilizando SwiftUI, listando alguns programas de TV, anime, desenhos e sendo possível abrir telas de detalhamento para cada um dos programas.
 
 Portanto, partimos para o XCode. Aqui, o plano era estruturar a árvore de pastas conforme o que estava na docs: uma pasta `Models/`, uma pasta `Views/` e, dentro dela, uma `Components/`.
 
-Aqui já apareceu a primeira dúvida: no Xcode, criar uma pasta não é a mesma coisa que criar um **Group** no Project Navigator. Já tinhamos chegado a criar as pastas direto no Finder, mas elas não apareciam no Xcode. Pesquisamos rapidamente, com auxílio do Claude Opus, e rapidamente descobrimos que precisavamos usar "New Group" dentro do próprio Xcode (ou "New Group without Folder"), porque o Xcode mantém a referência das pastas em um arquivo `.xcodeproj` separado. Depois disso, organizamos:
+Aqui já apareceu a primeira dúvida: no Xcode, criar uma pasta não é a mesma coisa que criar um **Group** no Project Navigator. Já tinhamos chegado a criar as pastas direto no Finder, mas elas não apareciam no Xcode. Pesquisamos rapidamente, com auxílio do Claude, e rapidamente descobrimos que precisavamos usar "New Group" dentro do próprio Xcode (ou "New Group without Folder"), porque o Xcode mantém a referência das pastas em um arquivo `.xcodeproj` separado. Depois disso, organizamos:
 
 ```
 ponderada2/
@@ -108,7 +108,7 @@ ForEach(0..<5) { index in
 }
 ```
 
-Funcionou! Mas com a avaliação `4.7` do Stranger Things eu mostrava apenas 4 estrelas preenchidas (porque `Int(4.7)` arredonda para baixo). Então decidimos mostrar também o número decimal ao lado das estrelas com `String(format: "%.1f", programa.avaliacao)` (Gemini nos ajudou com essa implementação), e assim o usuário consegue ver o valor real:
+Funcionou! Mas como a avaliação `4.7` do Stranger Things mostrava apenas 4 estrelas preenchidas (porque `Int(4.7)` arredonda para baixo). Então decidimos mostrar também o número decimal ao lado das estrelas com `String(format: "%.1f", programa.avaliacao)` (Gemini nos ajudou com essa implementação), e assim o usuário consegue ver o valor real:
 
 ![](assets/lista-view.jpeg)
 
@@ -134,7 +134,7 @@ LinearGradient(
 .frame(height: 300)
 ```
 
-Funcionou bem, mas o header tinha uma borda branca em cima por causa da Safe Area do iPhone. Pesquiasmos e a solução foi `.ignoresSafeArea(edges: .top)` aplicado no `ScrollView`. Aí surgiu outro problema: a barra de navegação ficou desenhando por cima do título do programa. Resolvi com `.navigationBarTitleDisplayMode(.inline)`, que deixa a navigation bar mais discreta e transparente.
+Funcionou bem, mas o header tinha uma borda branca em cima por causa da Safe Area do iPhone. Pesquiasmos e a solução foi `.ignoresSafeArea(edges: .top)` aplicado no `ScrollView`. Aí surgiu outro problema: a barra de navegação ficou desenhando por cima do título do programa. Resolvemos com `.navigationBarTitleDisplayMode(.inline)`, que deixa a navigation bar mais discreta e transparente.
 
 ![](assets/naruto-view.jpeg)
 
@@ -142,7 +142,7 @@ Para os `InfoBadge` (Episódios, Temporadas, Status), a dúvida foi sobre como p
 
 Por fim, o botão "Ver Todos Os Episódios". Aqui tomamos a decisão deliberada de deixar a `action` vazia, porque o escopo da atividade era a UI e não a navegação para uma tela de episódios que não existe. Colocamos um comentário mental de que, em um próximo passo, isso poderia abrir um `Sheet` ou uma nova `NavigationLink`.
 
-Uma última dúvida nos apareceu nos `#Preview`. Quando eu colocava `#Preview { ProgramaDetailView(programa: naruto) }` direto, o preview renderizava mas a barra de navegação não aparecia, e o `.navigationBarTitleDisplayMode(.inline)` não tinha efeito. Então buscamos essa informação e a resposta foi que o preview precisa estar dentro de um `NavigationStack` para simular o contexto real:
+Uma última dúvida nos apareceu nos `#Preview`. Quando era colocado `#Preview { ProgramaDetailView(programa: naruto) }` direto, o preview renderizava mas a barra de navegação não aparecia, e o `.navigationBarTitleDisplayMode(.inline)` não tinha efeito. Então buscamos essa informação e a resposta foi que o preview precisa estar dentro de um `NavigationStack` para simular o contexto real:
 
 ```swift
 #Preview {
@@ -152,7 +152,7 @@ Uma última dúvida nos apareceu nos `#Preview`. Quando eu colocava `#Preview { 
 }
 ```
 
-Falando em `NavigationStack`, esse foi outro ponto. Boa parte dos tutoriais antigos usam `NavigationView`, mas o Xcode marcou como deprecated. Pesquisamos um pouco mai e vimos que a partir do iOS 16 o caminho recomendado é `NavigationStack`, então adotamos essa em todas as Views.
+Falando em `NavigationStack`, esse foi outro ponto. Boa parte dos tutoriais antigos usam `NavigationView`, mas o Xcode marcou como deprecated. Pesquisamos um pouco mais e vimos que a partir do iOS 16 o caminho recomendado é `NavigationStack`, então adotamos essa em todas as Views.
 
 No fim, ficou um app com a tela inicial listando os três programas em cards, e cada card abrindo a tela de detalhes correspondente, com gradiente colorido por tipo, sinopse, badges de informação e lista de personagens. As três Views específicas (`NarutoDetailView`, `AvatarDetailView`, `StrangerDetailView`) foram mantidas no projeto apenas como referência de versionamento do primeiro approach antes da refatoração para a `ProgramaDetailView` genérica.
 
