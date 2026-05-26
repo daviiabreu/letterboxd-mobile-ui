@@ -29,7 +29,7 @@ ponderada2/
 └── ContentView.swift
 ```
 
-![alt text](assets/image.png)
+![](assets/chads.jpeg)
 
 Quando copiamos os trechos de código do docs, o mesmo comportamento de ponderadas anteriores foi repetido: haviam snippets quebrados no código "base" entregado. Aqui, por exemplo, o arquivo `Models/ponderada2.swift` veio com quebras de linha estranhas e algumas chaves de fechamento ausentes, principalmente na declaração das tuplas de personagens, por exemplo:
 
@@ -110,7 +110,7 @@ ForEach(0..<5) { index in
 
 Funcionou! Mas com a avaliação `4.7` do Stranger Things eu mostrava apenas 4 estrelas preenchidas (porque `Int(4.7)` arredonda para baixo). Então decidimos mostrar também o número decimal ao lado das estrelas com `String(format: "%.1f", programa.avaliacao)` (Gemini nos ajudou com essa implementação), e assim o usuário consegue ver o valor real:
 
-![alt text](assets/lista-view.jpeg)
+![](assets/lista-view.jpeg)
 
 Indo para a `ProgramaDetailView`, a parte do header com o emoji gigante e o gradiente colorido foi onde gastamos mais tempo. A ideia era ter um background colorido com gradiente do tipo do programa, o emoji centralizado e flutuando, e o título legível em cima. O problema é que quando o emoji ficava em cima do gradiente colorido, em algumas cores (principalmente laranja claro) o texto branco ficava ilegível.
 
@@ -136,7 +136,7 @@ LinearGradient(
 
 Funcionou bem, mas o header tinha uma borda branca em cima por causa da Safe Area do iPhone. Pesquiasmos e a solução foi `.ignoresSafeArea(edges: .top)` aplicado no `ScrollView`. Aí surgiu outro problema: a barra de navegação ficou desenhando por cima do título do programa. Resolvi com `.navigationBarTitleDisplayMode(.inline)`, que deixa a navigation bar mais discreta e transparente.
 
-![alt text](assets/naruto-view.jpeg)
+![](assets/naruto-view.jpeg)
 
 Para os `InfoBadge` (Episódios, Temporadas, Status), a dúvida foi sobre como passar o ícone. Não sabiamos se precisava importar SF Symbols separadamente ou se era nativo. Vimos que basta usar `Image(systemName: "play.circle.fill")` que o iOS já resolve (consultamos o Claude para isso). Fomos no app "SF Symbols" da Apple (que precisamos baixar do site da Apple) e escolhemos os ícones `play.circle.fill`, `film.stack` e `checkmark.circle.fill`.
 
@@ -156,8 +156,8 @@ Falando em `NavigationStack`, esse foi outro ponto. Boa parte dos tutoriais anti
 
 No fim, ficou um app com a tela inicial listando os três programas em cards, e cada card abrindo a tela de detalhes correspondente, com gradiente colorido por tipo, sinopse, badges de informação e lista de personagens. As três Views específicas (`NarutoDetailView`, `AvatarDetailView`, `StrangerDetailView`) foram mantidas no projeto apenas como referência de versionamento do primeiro approach antes da refatoração para a `ProgramaDetailView` genérica.
 
-![alt text](assets/naruto-view.jpeg)
+![](assets/naruto-view.jpeg)
 
-![alt text](assets/avatar-view.jpeg)
+![](assets/avatar-view.jpeg)
 
-![alt text](assets/st-view.jpeg)
+![](assets/st-view.jpeg)
